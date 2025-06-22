@@ -2,114 +2,447 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TechInnovators | DeHaDo-AI Submission</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Digitization | YOLOv8 + TrOCR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-700: #374151;
+            --gray-900: #111827;
+        }
+        
         body {
-            font-family: 'Poppins', sans-serif;
-            background: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--gray-700);
+            background-color: var(--gray-100);
             margin: 0;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: auto;
-            background: white;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        h1, h2 {
-            text-align: center;
-            color: #4a148c;
-        }
-
-        .section {
-            margin-top: 40px;
-        }
-
-        a.button {
-            display: inline-block;
-            margin: 10px 0;
-            padding: 10px 20px;
-            background-color: #7b1fa2;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: background 0.3s;
-        }
-
-        a.button:hover {
-            background-color: #6a1b9a;
-        }
-
-        ul {
-            list-style: none;
             padding: 0;
         }
-
-        ul li {
-            margin: 10px 0;
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
         }
-
-        img {
-            max-width: 100%;
-            margin-top: 10px;
-            border-radius: 10px;
-            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            margin-bottom: 3rem;
         }
-
-        .doc-link {
-            color: #1e88e5;
+        
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .tagline {
+            font-size: 1.25rem;
+            font-weight: 300;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: white;
+            color: var(--primary);
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
             text-decoration: none;
             font-weight: 500;
+            transition: all 0.2s;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            margin-left: 1rem;
+        }
+        
+        .btn-outline:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        section {
+            padding: 3rem 0;
+        }
+        
+        .section-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        }
+        
+        .card-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--gray-900);
+        }
+        
+        .card-text {
+            color: var(--gray-700);
+            margin-bottom: 1.5rem;
+        }
+        
+        .doc-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .doc-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .doc-item:last-child {
+            border-bottom: none;
+        }
+        
+        .doc-icon {
+            margin-right: 1rem;
+            color: var(--primary);
+        }
+        
+        .doc-link {
+            color: var(--gray-900);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .doc-link:hover {
+            color: var(--primary);
+        }
+        
+        .tech-stack {
+            background-color: white;
+            padding: 3rem 0;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+        
+        .tech-item {
+            padding: 1.5rem;
+        }
+        
+        .tech-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .tech-name {
+            font-weight: 600;
+        }
+        
+        footer {
+            background-color: var(--gray-900);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-text {
+            opacity: 0.7;
+            margin-top: 1rem;
         }
 
-        .doc-link:hover {
-            text-decoration: underline;
+        /* Implementation Guide Styles */
+        .implementation {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-top: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .implementation h3 {
+            color: var(--primary);
+            margin-top: 1.5rem;
+        }
+
+        .implementation pre {
+            background-color: var(--gray-100);
+            padding: 1rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            margin: 1rem 0;
+        }
+
+        .implementation ul {
+            padding-left: 1.5rem;
+        }
+
+        .implementation li {
+            margin-bottom: 0.5rem;
+        }
+
+        .folder-structure {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary);
+            padding: 1rem;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 1rem 0;
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-
-    <div class="container">
-        <h1>Team: TechInnovators</h1>
-        <h2>DeHaDo-AI Challenge Submission</h2>
-
-        <div class="section">
-            <h3>🔗 Final Result Link</h3>
-            <a class="button" href="https://your-result-link.com" target="_blank">View Inference Result</a>
+    <header>
+        <div class="header-content">
+            <h2>INNOVATORS : DEHADO CHALLENGE 2025</h2>
+            <p class="tagline">Advanced OCR solution combining YOLOv8 for text detection and TrOCR for recognition</p>
+            <div>
+                <a href="https://drive.google.com/drive/folders/1rlHABRXYAWmegAOlLAFLDe8k649JE5Bg?usp=sharing" class="btn" target="_blank">
+                    <i class="fas fa-download"></i> Download Models
+                </a>
+                <a href="#implementation" class="btn btn-outline">
+                    <i class="fas fa-code"></i> Implementation Guide
+                </a>
+            </div>
         </div>
+    </header>
 
-        <div class="section">
-            <h3>📄 Submitted Documents</h3>
+    <section class="container">
+        <h2 class="section-title">Project Overview</h2>
+        <p style="text-align: center; max-width: 800px; margin: 0 auto;">
+            Our document digitization system leverages cutting-edge computer vision and deep learning to accurately extract text from documents. 
+            The pipeline combines YOLOv8 for precise text region detection with a Transformer-based OCR (TrOCR) model for robust text recognition, 
+            achieving state-of-the-art performance on complex documents.
+        </p>
+    </section>
+
+     <section class="container">
+        <h2 class="section-title">Project Documentation</h2>
+        <div class="doc-list">
+            <div class="doc-item">
+                <div class="doc-icon">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+                <a href="Innovators_Technical Report.pdf" class="doc-link" target="_blank">Technical Report</a>
+            </div>
+            <div class="doc-item">
+                <div class="doc-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <a href="predictions_of_500_Images/" class="doc-link" target="_blank">Evaluation Metrics (500 Images)</a>
+            </div>
+            <div class="doc-item">
+                <div class="doc-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <a href="README.pdf" class="doc-link" target="_blank">README Documentation</a>
+            </div>
+            <div class="doc-item">
+                <div class="doc-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <a href="inference.py" download class="doc-link">Inference Script</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="tech-stack">
+        <div class="container">
+            <h2 class="section-title">Technology Stack</h2>
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <div class="tech-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="tech-name">YOLOv8</h3>
+                    <p>Ultralytics implementation for text detection</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="tech-name">TrOCR</h3>
+                    <p>Transformer-based OCR for text recognition</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">
+                        <i class="fab fa-python"></i>
+                    </div>
+                    <h3 class="tech-name">Python 3.8+</h3>
+                    <p>Core programming language</p>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3 class="tech-name">PyTorch</h3>
+                    <p>Deep learning framework</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="demo" class="container">
+        <h2 class="section-title">System Demonstration</h2>
+        <div class="card-grid">
+            <div class="card">
+                <img src="img1.jpg" alt="Input Document" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Input Document</h3>
+                    <p class="card-text">Example of a complex document with various text regions and formats.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="img2.jpg" alt="Detection Output" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Text Detection</h3>
+                    <p class="card-text">YOLOv8 accurately identifies and localizes all text regions in the document.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="img3.jpg" alt="OCR Output" class="card-img">
+                <div class="card-content">
+                    <h3 class="card-title">Structured Output</h3>
+                    <p class="card-text">Final JSON output containing extracted text with coordinates and confidence scores.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="implementation" class="container">
+        <h2 class="section-title">Implementation Guide</h2>
+        <div class="implementation">
+            <h3>Setup</h3>
+            <ol>
+                <li>Make sure Python is installed (Python 3.8+ recommended)</li>
+                <li>Install required Python libraries:</li>
+            </ol>
+            <pre><code>pip install torch torchvision transformers pillow opencv-python ultralytics</code></pre>
+
+            <h3>Folder Structure</h3>
+            <div class="folder-structure">project_folder/
+│
+├── models/
+│   ├── yolov8_latest_trained_model.pt
+│   └── Fine_tuned_TrOCR_transfer learn_model/
+│       └── final/
+│           ├── config.json
+│           ├── pytorch_model.bin
+│           ├── processor_config.json
+│           └── ... (TrOCR files)
+│
+├── IMAGES/                     --> Place input .jpg/.png images here
+│   └── your_image.jpg
+│
+├── predictions_of_IMAGES/     --> Output JSONs will be saved here
+│
+└── inference.py               --> The main Python script</div>
+
+            <h3>Running the Script</h3>
+            <ol>
+                <li>Open terminal or command prompt</li>
+                <li>Navigate to your project directory</li>
+                <li>Run: <code>python inference.py</code></li>
+            </ol>
+            <p>The script will:</p>
             <ul>
-                <li><a class="doc-link" href="technical_report.pdf" target="_blank">Technical Report</a></li>
-                <li><a class="doc-link" href="evaluation_metrics.pdf" target="_blank">Evaluation Metrics</a></li>
-                <li><a class="doc-link" href="README.pdf" target="_blank">README Instructions</a></li>
+                <li>Load the YOLOv8 and TrOCR models</li>
+                <li>Detect text regions in images from the IMAGES/ folder</li>
+                <li>Run OCR on each region</li>
+                <li>Save outputs as JSON files in predictions_of_IMAGES/ folder</li>
+            </ul>
+
+            <h3>Adding More Images</h3>
+            <ul>
+                <li>Simply add new .jpg, .jpeg, or .png images to the IMAGES/ folder</li>
+                <li>Run the script again</li>
+                <li>Already processed images will be skipped automatically</li>
+            </ul>
+
+            <h3>Notes</h3>
+            <ul>
+                <li>You must have your trained model weights for YOLOv8 in: models/yolov8_latest_trained_model.pt</li>
+                <li>You must have the trained TrOCR model in: models/Fine_tuned_TrOCR_transfer learn_model/final/</li>
+            </ul>
+
+            <h3>Troubleshooting</h3>
+            <ul>
+                <li>If you get a CUDA error, switch to CPU by ensuring PyTorch is using 'cpu'</li>
+                <li>If output JSONs are empty, check if bounding boxes are detected by YOLO</li>
+                <li>If script throws errors, ensure correct model paths and that folders exist</li>
             </ul>
         </div>
+    </section>
 
-        <div class="section">
-            <h3>🖼️ Sample Images</h3>
-            <p>Input Form Image:</p>
-            <img src="sample_input.jpg" alt="Sample Input Image">
+   
 
-            <p>Output JSON Screenshot:</p>
-            <img src="sample_output.png" alt="Sample Output Screenshot">
+    <footer>
+        <div class="container">
+            <h2>Document Digitization System</h2>
+            <p class="footer-text">Advanced OCR solution for the DeHaDo-AI Challenge</p>
+            <p class="footer-text">© 2023 Innovators Team. All rights reserved.</p>
         </div>
-
-        <div class="section">
-            <h3>📦 Downloadable Files</h3>
-            <ul>
-                <li><a class="doc-link" href="submission.zip" download>Download Full Submission</a></li>
-                <li><a class="doc-link" href="handwritten_model.pth" download>Model File (PyTorch)</a></li>
-                <li><a class="doc-link" href="inference.py" download>Inference Script</a></li>
-            </ul>
-        </div>
-    </div>
-
+    </footer>
 </body>
 </html>
